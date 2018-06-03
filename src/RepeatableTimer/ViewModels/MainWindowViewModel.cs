@@ -12,8 +12,6 @@ namespace RepeatableTimer.ViewModels
         {
             Initialize();
 
-            Player = new SoundPlayer(Properties.Resources.notification4);
-
             Timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(50) };
             Timer.Tick += Timer_Tick;
 
@@ -34,7 +32,7 @@ namespace RepeatableTimer.ViewModels
 
                 Timer.Start();
                 StartTime = DateTime.Now;
-                Round = CurrentPeriod.ToString() + "/" + Settings.RepeatTimes.ToString();
+                Round = CurrentPeriod + "/" + Settings.RepeatTimes;
                 Status = Status.Run;
                 IsStartEnabled = false;
                 IsPauseEnabled = true;
@@ -68,7 +66,7 @@ namespace RepeatableTimer.ViewModels
         public ICommand StopCommand { get; private set; }
         public ICommand PauseCommand { get; private set; }
 
-        public SoundPlayer Player { get; set; }
+        public SoundPlayer Player { get; set; } = new SoundPlayer(Properties.Resources.notification4);
         public DispatcherTimer Timer { get; set; }
 
         private static readonly PropertyChangedEventArgs HourPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Hour));
