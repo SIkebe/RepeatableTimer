@@ -1,0 +1,97 @@
+﻿<Window x:Class="RepeatableTimer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RepeatableTimer"
+        mc:Ignorable="d"
+        Title="RepeatableTimer" Height="300" Width="500">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <BitmapImage x:Key="StartImage" UriSource="./Resources/start.png" />
+            <BitmapImage x:Key="StopImage" UriSource="./Resources/stop.png" />
+            <BitmapImage x:Key="PauseImage" UriSource="./Resources/pause.png" />
+            <Style TargetType="Button">
+                <Setter Property="Padding" Value="3" />
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBox x:Name="hour" Margin="5" Width="95" FontSize="80" TextAlignment="Right" 
+                     Text="{Binding Hour}"/>
+            <Label FontSize="30" Padding="1" Content="h" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="34"/>
+            <TextBox x:Name="minute" Margin="5" Width="95" FontSize="80" HorizontalAlignment="Center"  TextAlignment="Right" 
+                     Text="{Binding Minute}"/>
+            <Label FontSize="30" Padding="1" Content="m" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="34"/>
+            <TextBox x:Name="second" Margin="5" Width="95" FontSize="80" HorizontalAlignment="Center"  TextAlignment="Right" 
+                     Text="{Binding Second}"/>
+            <Label FontSize="30" Padding="1" Content="s" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="34"/>
+        </StackPanel>
+        <Grid DockPanel.Dock="Bottom" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btnPause" Grid.Row="0" Grid.Column="0" Margin="5" Width="Auto" Height="50" 
+                    Command="{Binding PauseCommand}" IsEnabled="{Binding IsPauseEnabled, UpdateSourceTrigger=PropertyChanged}">
+                <Image Source="{StaticResource PauseImage}"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="40" Width="41"/>
+            </Button>
+            <Button x:Name="btnStart" Grid.Row="0" Grid.Column="1" Margin="5" Width="Auto" Height="50" 
+                    Command="{Binding StartCommand}" IsEnabled="{Binding IsStartEnabled, UpdateSourceTrigger=PropertyChanged}">
+                <Image Source="{StaticResource StartImage}"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="40" Width="41"/>
+            </Button>
+            <Button x:Name="btnStop" Grid.Row="0" Grid.Column="2" Margin="5" Width="Auto" Height="50" 
+                    Command="{Binding StopCommand}" IsEnabled="{Binding IsStopEnabled, UpdateSourceTrigger=PropertyChanged}">
+                <Image Source="{StaticResource StopImage}"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="40" Width="41"/>
+            </Button>
+        </Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*" />
+                <ColumnDefinition Width="3*" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="0" Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <RadioButton x:Name="onetime" GroupName="period" Grid.Row="1" Grid.Column="0" Margin="5 3" HorizontalAlignment="Left" IsChecked="True">one time</RadioButton>
+                
+                <Grid Grid.Row="2" Grid.Column="0" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <RadioButton x:Name="repeat" GroupName="period" Grid.Column="0" Margin="5 3"  HorizontalAlignment="Left">repeat</RadioButton>
+                    <TextBox Grid.Column="1" Text="{Binding Settings.RepeatTimes}" Margin="1" Width="30" TextAlignment="Right" />
+                </Grid>
+
+                <RadioButton x:Name="countup" GroupName="count" Grid.Row="1" Grid.Column="1" Margin="5 3" HorizontalAlignment="Left" IsChecked="True">count up</RadioButton>
+                <RadioButton x:Name="countdown" GroupName="count" Grid.Row="2" Grid.Column="1" Margin="5 3"  HorizontalAlignment="Left">count down</RadioButton>
+
+            </Grid>
+            <TextBlock x:Name="count" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="50"
+                       Text="{Binding Round}"/>
+        </Grid>
+    </DockPanel>
+</Window>
