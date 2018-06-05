@@ -17,51 +17,9 @@ namespace RepeatableTimer.ViewModels
             Timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(50) };
             Timer.Tick += Timer_Tick;
 
-            StartCommand = new DelegateCommand(() =>
-            {
-                if (Status != Status.Pause)
-                {
-                    int.TryParse(Hour, out var hour);
-                    int.TryParse(Minute, out var minute);
-                    int.TryParse(Second, out var secound);
-
-                    DesignatedTime = new TimeSpan(hour, minute, secound);
-                }
-
-                Hour = "0";
-                Minute = "0";
-                Second = "0";
-
-                Timer.Start();
-                StartTime = DateTime.Now;
-                Round = CurrentPeriod + "/" + Settings.RepeatTimes;
-                Status = Status.Run;
-                IsStartEnabled = false;
-                IsPauseEnabled = true;
-                IsStopEnabled = true;
-            });
-
-            StopCommand = new DelegateCommand(() =>
-            {
-                OldTimeSpan = new TimeSpan();
-                Timer?.Stop();
-                Round = string.Empty;
-                Status = Status.Stop;
-                Initialize();
-                IsStartEnabled = true;
-                IsPauseEnabled = false;
-                IsStopEnabled = false;
-            });
-
-            PauseCommand = new DelegateCommand(() =>
-            {
-                OldTimeSpan = OldTimeSpan + ElapsedTimeSpan;
-                Timer?.Stop();
-                Status = Status.Pause;
-                IsStartEnabled = true;
-                IsPauseEnabled = false;
-                IsStopEnabled = true;
-            });
+            StartCommand = new DelegateCommand(() => { StartTimer(); });
+            StopCommand = new DelegateCommand(() => { StopTimer(); });
+            PauseCommand = new DelegateCommand(() => { PauseTimer(); });
         }
 
         public ICommand StartCommand { get; private set; }
@@ -177,6 +135,52 @@ namespace RepeatableTimer.ViewModels
         public Status Status { get; set; }
         public Settings Settings { get; set; } = new Settings();
 
+        private void StartTimer()
+        {
+            if (Status != Status.Pause)
+            {
+                int.TryParse(Hour, out var hour);
+                int.TryParse(Minute, out var minute);
+                int.TryParse(Second, out var secound);
+
+                DesignatedTime = new TimeSpan(hour, minute, secound);
+            }
+
+            Hour = "0";
+            Minute = "0";
+            Second = "0";
+
+            Timer.Start();
+            StartTime = DateTime.Now;
+            Round = CurrentPeriod + "/" + Settings.RepeatTimes;
+            Status = Status.Run;
+            IsStartEnabled = false;
+            IsPauseEnabled = true;
+            IsStopEnabled = true;
+        }
+
+        private void PauseTimer()
+        {
+            OldTimeSpan = OldTimeSpan + ElapsedTimeSpan;
+            Timer?.Stop();
+            Status = Status.Pause;
+            IsStartEnabled = true;
+            IsPauseEnabled = false;
+            IsStopEnabled = true;
+        }
+
+        private void StopTimer()
+        {
+            OldTimeSpan = new TimeSpan();
+            Timer?.Stop();
+            Round = string.Empty;
+            Status = Status.Stop;
+            Initialize();
+            IsStartEnabled = true;
+            IsPauseEnabled = false;
+            IsStopEnabled = false;
+        }
+
         bool first = true;
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -202,7 +206,6 @@ namespace RepeatableTimer.ViewModels
                         if (CurrentPeriod <= Settings.RepeatTimes)
                         {
                             Timer.Start();
-
                             StartTime = DateTime.Now;
                             Round = CurrentPeriod.ToString() + "/" + Settings.RepeatTimes.ToString();
                             Status = Status.Run;
@@ -219,7 +222,6 @@ namespace RepeatableTimer.ViewModels
                     Hour = ElapsedTimeSpan.Hours.ToString();
                     Minute = ElapsedTimeSpan.Minutes.ToString();
                     Second = ElapsedTimeSpan.Seconds.ToString();
-
                     break;
 
                 case Status.Pause:
