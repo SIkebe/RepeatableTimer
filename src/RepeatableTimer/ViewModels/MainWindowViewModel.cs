@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Prism.Commands;
+using Prism.Mvvm;
+using System;
 using System.ComponentModel;
 using System.Media;
 using System.Windows.Input;
@@ -6,7 +8,7 @@ using System.Windows.Threading;
 
 namespace RepeatableTimer.ViewModels
 {
-    public class MainWindowViewModel : INotifyPropertyChanged
+    public class MainWindowViewModel : BindableBase, INotifyPropertyChanged
     {
         public MainWindowViewModel()
         {
@@ -15,7 +17,7 @@ namespace RepeatableTimer.ViewModels
             Timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(50) };
             Timer.Tick += Timer_Tick;
 
-            StartCommand = new StartCommandImpl(() =>
+            StartCommand = new DelegateCommand(() =>
             {
                 if (Status != Status.Pause)
                 {
@@ -39,7 +41,7 @@ namespace RepeatableTimer.ViewModels
                 IsStopEnabled = true;
             });
 
-            StopCommand = new StopCommandImpl(() =>
+            StopCommand = new DelegateCommand(() =>
             {
                 OldTimeSpan = new TimeSpan();
                 Timer?.Stop();
@@ -51,7 +53,7 @@ namespace RepeatableTimer.ViewModels
                 IsStopEnabled = false;
             });
 
-            PauseCommand = new PauseCommandImpl(() =>
+            PauseCommand = new DelegateCommand(() =>
             {
                 OldTimeSpan = OldTimeSpan + ElapsedTimeSpan;
                 Timer?.Stop();
@@ -69,7 +71,6 @@ namespace RepeatableTimer.ViewModels
         public SoundPlayer Player { get; set; } = new SoundPlayer(Properties.Resources.notification4);
         public DispatcherTimer Timer { get; set; }
 
-        private static readonly PropertyChangedEventArgs HourPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Hour));
         private string _hour;
         public string Hour
         {
@@ -79,12 +80,11 @@ namespace RepeatableTimer.ViewModels
                 if (_hour != value)
                 {
                     _hour = value;
-                    PropertyChanged?.Invoke(this, HourPropertyChangedEventArgs);
+                    RaisePropertyChanged();
                 }
             }
         }
 
-        private static readonly PropertyChangedEventArgs MinutePropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Minute));
         private string _minute;
         public string Minute
         {
@@ -94,12 +94,11 @@ namespace RepeatableTimer.ViewModels
                 if (_minute != value)
                 {
                     _minute = value;
-                    PropertyChanged?.Invoke(this, MinutePropertyChangedEventArgs);
+                    RaisePropertyChanged();
                 }
             }
         }
 
-        private static readonly PropertyChangedEventArgs SecondPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Second));
         private string _secound;
         public string Second
         {
@@ -109,12 +108,11 @@ namespace RepeatableTimer.ViewModels
                 if (_secound != value)
                 {
                     _secound = value;
-                    PropertyChanged?.Invoke(this, SecondPropertyChangedEventArgs);
+                    RaisePropertyChanged();
                 }
             }
         }
 
-        private static readonly PropertyChangedEventArgs RoundPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Round));
         private string _round;
         public string Round
         {
@@ -124,12 +122,11 @@ namespace RepeatableTimer.ViewModels
                 if (_round != value)
                 {
                     _round = value;
-                    PropertyChanged?.Invoke(this, RoundPropertyChangedEventArgs);
+                    RaisePropertyChanged();
                 }
             }
         }
 
-        private static readonly PropertyChangedEventArgs IsStartEnabledPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(IsStartEnabled));
         private bool _isStartEnabled;
         public bool IsStartEnabled
         {
@@ -139,12 +136,11 @@ namespace RepeatableTimer.ViewModels
                 if (_isStartEnabled != value)
                 {
                     _isStartEnabled = value;
-                    PropertyChanged?.Invoke(this, IsStartEnabledPropertyChangedEventArgs);
+                    RaisePropertyChanged();
                 }
             }
         }
 
-        private static readonly PropertyChangedEventArgs IsStopEnabledPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(IsStopEnabled));
         private bool _isStopEnabled;
         public bool IsStopEnabled
         {
@@ -154,12 +150,11 @@ namespace RepeatableTimer.ViewModels
                 if (_isStopEnabled != value)
                 {
                     _isStopEnabled = value;
-                    PropertyChanged?.Invoke(this, IsStopEnabledPropertyChangedEventArgs);
+                    RaisePropertyChanged();
                 }
             }
         }
 
-        private static readonly PropertyChangedEventArgs IsPauseEnabledPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(IsPauseEnabled));
         private bool _isPauseEnabled;
         public bool IsPauseEnabled
         {
@@ -169,7 +164,7 @@ namespace RepeatableTimer.ViewModels
                 if (_isPauseEnabled != value)
                 {
                     _isPauseEnabled = value;
-                    PropertyChanged?.Invoke(this, IsPauseEnabledPropertyChangedEventArgs);
+                    RaisePropertyChanged();
                 }
             }
         }
@@ -181,7 +176,6 @@ namespace RepeatableTimer.ViewModels
         public DateTime StartTime { get; private set; }
         public Status Status { get; set; }
         public Settings Settings { get; set; } = new Settings();
-        public event PropertyChangedEventHandler PropertyChanged;
 
         bool first = true;
         private void Timer_Tick(object sender, EventArgs e)
@@ -257,45 +251,6 @@ namespace RepeatableTimer.ViewModels
             IsStopEnabled = false;
             IsPauseEnabled = false;
         }
-    }
-
-    public class StartCommandImpl : ICommand
-    {
-        private readonly Action _execute;
-
-        public StartCommandImpl(Action startAction) => _execute = startAction;
-
-        public event EventHandler CanExecuteChanged;
-
-        public bool CanExecute(object parameter) => true;
-
-        public void Execute(object parameter) => _execute();
-    }
-
-    public class StopCommandImpl : ICommand
-    {
-        private readonly Action _execute;
-
-        public StopCommandImpl(Action stopAction) => _execute = stopAction;
-
-        public event EventHandler CanExecuteChanged;
-
-        public bool CanExecute(object parameter) => true;
-
-        public void Execute(object parameter) => _execute();
-    }
-
-    public class PauseCommandImpl : ICommand
-    {
-        private readonly Action _execute;
-
-        public PauseCommandImpl(Action pauseAction) => _execute = pauseAction;
-
-        public event EventHandler CanExecuteChanged;
-
-        public bool CanExecute(object parameter) => true;
-
-        public void Execute(object parameter) => _execute();
     }
 
     public class Settings
