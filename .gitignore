@@ -1,4 +1,7 @@
 /.vs
+/artifact
 /src/**/bin
 /src/**/obj
 /packages
+/tools
+!/tools/packages.config
