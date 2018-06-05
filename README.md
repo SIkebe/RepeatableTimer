@@ -9,4 +9,4 @@ cd RepeatableTimer
 .\artifact\RepeatableTimer.exe
 ```
 
-(![mainwindow](./images/mainwindow.png))
+![mainwindow](./images/mainwindow.png)
