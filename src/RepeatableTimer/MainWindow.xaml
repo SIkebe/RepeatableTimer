@@ -71,7 +71,7 @@
                     <ColumnDefinition Width="1*" />
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
-                <RadioButton x:Name="onetime" GroupName="period" Grid.Row="1" Grid.Column="0" Margin="5 3" HorizontalAlignment="Left" IsChecked="True">one time</RadioButton>
+                <RadioButton x:Name="onetime" GroupName="period" Grid.Row="1" Grid.Column="0" Margin="5 3" HorizontalAlignment="Left" IsEnabled="False">one time</RadioButton>
                 
                 <Grid Grid.Row="2" Grid.Column="0" >
                     <Grid.RowDefinitions>
@@ -82,12 +82,12 @@
                         <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
-                    <RadioButton x:Name="repeat" GroupName="period" Grid.Column="0" Margin="5 3"  HorizontalAlignment="Left">repeat</RadioButton>
+                    <RadioButton x:Name="repeat" GroupName="period" Grid.Column="0" Margin="5 3"  HorizontalAlignment="Left" IsChecked="True">repeat</RadioButton>
                     <TextBox Grid.Column="1" Text="{Binding Settings.RepeatTimes}" Margin="1" Width="30" TextAlignment="Right" />
                 </Grid>
 
                 <RadioButton x:Name="countup" GroupName="count" Grid.Row="1" Grid.Column="1" Margin="5 3" HorizontalAlignment="Left" IsChecked="True">count up</RadioButton>
-                <RadioButton x:Name="countdown" GroupName="count" Grid.Row="2" Grid.Column="1" Margin="5 3"  HorizontalAlignment="Left">count down</RadioButton>
+                <RadioButton x:Name="countdown" GroupName="count" Grid.Row="2" Grid.Column="1" Margin="5 3"  HorizontalAlignment="Left" IsEnabled="False">count down</RadioButton>
 
             </Grid>
             <TextBlock x:Name="count" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="50"
