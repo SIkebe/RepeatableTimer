@@ -174,6 +174,7 @@ namespace RepeatableTimer.ViewModels
             OldTimeSpan = new TimeSpan();
             Timer?.Stop();
             Round = string.Empty;
+            CurrentPeriod = 1;
             Status = Status.Stop;
             Initialize();
             IsStartEnabled = true;
@@ -232,7 +233,6 @@ namespace RepeatableTimer.ViewModels
 
                 case Status.Stop:
                     Timer.Stop();
-                    CurrentPeriod = 1;
                     IsStartEnabled = true;
                     IsStopEnabled = false;
                     IsPauseEnabled = false;
