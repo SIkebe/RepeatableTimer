@@ -1,5 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
+using RepeatableTimer.Enums;
 using System;
 using System.ComponentModel;
 using System.Media;
@@ -127,13 +128,33 @@ namespace RepeatableTimer.ViewModels
             }
         }
 
+        private CountMode _mode = CountMode.CountUp;
+        public CountMode Mode
+        {
+            get => _mode;
+            set => SetProperty(ref _mode, value);
+        }
+
+        private bool _isOneTime = true;
+        public bool IsOneTime
+        {
+            get => _isOneTime;
+            set => SetProperty(ref _isOneTime, value);
+        }
+
+        private int _repeatTimes = 1;
+        public int RepeatTimes
+        {
+            get => _repeatTimes;
+            set => SetProperty(ref _repeatTimes, value);
+        }
+
         public int CurrentPeriod { get; set; } = 1;
         public TimeSpan ElapsedTimeSpan { get; set; }
         public TimeSpan OldTimeSpan { get; set; }
         public TimeSpan DesignatedTime { get; private set; }
         public DateTime StartTime { get; private set; }
         public Status Status { get; set; }
-        public Settings Settings { get; set; } = new Settings();
 
         private void StartTimer()
         {
@@ -152,7 +173,9 @@ namespace RepeatableTimer.ViewModels
 
             Timer.Start();
             StartTime = DateTime.Now;
-            Round = CurrentPeriod + "/" + Settings.RepeatTimes;
+            Round = IsOneTime ?
+                "1/1" :
+                CurrentPeriod + "/" + RepeatTimes;
             Status = Status.Run;
             IsStartEnabled = false;
             IsPauseEnabled = true;
@@ -204,11 +227,13 @@ namespace RepeatableTimer.ViewModels
                         first = true;
 
                         CurrentPeriod++;
-                        if (CurrentPeriod <= Settings.RepeatTimes)
+                        if (!IsOneTime && CurrentPeriod <= RepeatTimes)
                         {
                             Timer.Start();
                             StartTime = DateTime.Now;
-                            Round = CurrentPeriod.ToString() + "/" + Settings.RepeatTimes.ToString();
+                            Round = IsOneTime ?
+                                "1/1" :
+                                CurrentPeriod + "/" + RepeatTimes;
                             Status = Status.Run;
                             break;
                         }
@@ -253,24 +278,5 @@ namespace RepeatableTimer.ViewModels
             IsStopEnabled = false;
             IsPauseEnabled = false;
         }
-    }
-
-    public class Settings
-    {
-        public int RepeatTimes { get; set; } = 1;
-        public CountMode CountMode { get; set; } = CountMode.CountUp;
-    }
-
-    public enum CountMode
-    {
-        CountUp,
-        CountDown
-    }
-
-    public enum Status
-    {
-        Run,
-        Pause,
-        Stop
     }
 }
