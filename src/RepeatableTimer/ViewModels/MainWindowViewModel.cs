@@ -1,11 +1,11 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
-using RepeatableTimer.Enums;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Media;
 using System.Windows.Input;
 using System.Windows.Threading;
+using Prism.Commands;
+using Prism.Mvvm;
+using RepeatableTimer.Enums;
 
 namespace RepeatableTimer.ViewModels
 {

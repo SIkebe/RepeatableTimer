@@ -1,5 +1,5 @@
-﻿using RepeatableTimer.ViewModels;
-using System.Windows;
+﻿using System.Windows;
+using RepeatableTimer.ViewModels;
 
 namespace RepeatableTimer
 {
