@@ -2,10 +2,13 @@
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWPF>true</UseWPF>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
     <NoWarn>CA1416</NoWarn>
+    <DebugType>embedded</DebugType>
+    <Company>SIkebe</Company>
+    <Product>RepeatableTimer</Product>
+    <Copyright>© SIkebe All rights reserved.</Copyright>
   </PropertyGroup>
   <ItemGroup>
     <Resource Include="Resources\*.png" />
