@@ -1,8 +1,8 @@
-#tool "nuget:?package=ilmerge&version=3.0.40"
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
 //////////////////////////////////////////////////////////////////////
 
+var rid = Argument("rid", "win-x64");
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 
@@ -22,36 +22,35 @@ Task("Clean")
     CleanDirectory(buildDir);
 });
 
-Task("Restore-NuGet-Packages")
+Task("Build")
     .IsDependentOn("Clean")
     .Does(() =>
 {
-    NuGetRestore("./RepeatableTimer.sln");
+    DotNetBuild(
+        "./RepeatableTimer.sln",
+        new DotNetBuildSettings
+        {
+            Configuration = configuration
+        });
 });
 
-Task("Build")
-    .IsDependentOn("Restore-NuGet-Packages")
+Task("Publish")
     .Does(() =>
 {
-    MSBuild("./RepeatableTimer.sln", settings =>
-        settings.SetConfiguration(configuration));
-});
+    CleanDirectory("executable");
 
-Task("ILMerge")
-    .IsDependentOn("Build")
-    .Does(() =>
-{
-    var assemblyPaths = GetFiles("./src/RepeatableTimer/bin/Release/*.dll");
-    if(!System.IO.Directory.Exists("./artifact"))
-    {
-        System.IO.Directory.CreateDirectory("./artifact");
-    }
-
-    ILMerge(
-        "./artifact/RepeatableTimer.exe",
-        "./src/RepeatableTimer/bin/Release/RepeatableTimer.exe",
-        assemblyPaths,
-        new ILMergeSettings { Internalize = true });
+    DotNetPublish(
+        "./src/RepeatableTimer/RepeatableTimer.csproj",
+        new DotNetPublishSettings
+        {
+            Configuration = configuration,
+            OutputDirectory = "executable",
+            Runtime = rid,
+            PublishSingleFile = true,
+            SelfContained = true,
+            IncludeNativeLibrariesForSelfExtract = true,
+            EnableCompressionInSingleFile = true,
+        });
 });
 
 //////////////////////////////////////////////////////////////////////

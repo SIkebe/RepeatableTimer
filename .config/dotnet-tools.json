@@ -2,14 +2,8 @@
   "version": 1,
   "isRoot": true,
   "tools": {
-    "dotnet-format": {
-      "version": "4.0.130203",
-      "commands": [
-        "dotnet-format"
-      ]
-    },
     "cake.tool": {
-      "version": "0.38.2",
+      "version": "2.0.0",
       "commands": [
         "dotnet-cake"
       ]
