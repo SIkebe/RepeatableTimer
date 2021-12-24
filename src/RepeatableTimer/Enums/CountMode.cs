@@ -1,8 +1,7 @@
-﻿namespace RepeatableTimer.Enums
+namespace RepeatableTimer.Enums;
+
+public enum CountMode
 {
-    public enum CountMode
-    {
-        CountUp = 0,
-        CountDown
-    }
+    CountUp = 0,
+    CountDown
 }
