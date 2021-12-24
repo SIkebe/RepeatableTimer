@@ -5,15 +5,11 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWPF>true</UseWPF>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <NoWarn>CA1416</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Resource Include="Resources\stop.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\start.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\pause.png" />
+    <Resource Include="Resources\*.png" />
+    <EmbeddedResource Include="Resources\*.wav" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Media;
+using System.Reflection;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Prism.Commands;
@@ -27,7 +28,7 @@ namespace RepeatableTimer.ViewModels
         public ICommand StopCommand { get; private set; }
         public ICommand PauseCommand { get; private set; }
 
-        public SoundPlayer Player { get; set; } = new SoundPlayer(Properties.Resources.notification4);
+        public SoundPlayer Player { get; set; } = new SoundPlayer(Assembly.GetExecutingAssembly().GetManifestResourceStream("RepeatableTimer.Resources.notification4.wav"));
         public DispatcherTimer Timer { get; set; }
 
         private string _hour;
