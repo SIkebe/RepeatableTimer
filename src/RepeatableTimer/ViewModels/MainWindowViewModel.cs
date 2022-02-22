@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel;
 using System.Media;
 using System.Reflection;
@@ -31,8 +30,8 @@ public class MainWindowViewModel : BindableBase, INotifyPropertyChanged
     public SoundPlayer Player { get; set; } = new SoundPlayer(Assembly.GetExecutingAssembly().GetManifestResourceStream("RepeatableTimer.Resources.notification4.wav"));
     public DispatcherTimer Timer { get; set; }
 
-    private string _hour;
-    public string Hour
+    private string? _hour;
+    public string? Hour
     {
         get => _hour;
         set
@@ -45,8 +44,8 @@ public class MainWindowViewModel : BindableBase, INotifyPropertyChanged
         }
     }
 
-    private string _minute;
-    public string Minute
+    private string? _minute;
+    public string? Minute
     {
         get => _minute;
         set
@@ -59,8 +58,8 @@ public class MainWindowViewModel : BindableBase, INotifyPropertyChanged
         }
     }
 
-    private string _secound;
-    public string Second
+    private string? _secound;
+    public string? Second
     {
         get => _secound;
         set
@@ -73,8 +72,8 @@ public class MainWindowViewModel : BindableBase, INotifyPropertyChanged
         }
     }
 
-    private string _round;
-    public string Round
+    private string? _round;
+    public string? Round
     {
         get => _round;
         set
@@ -161,9 +160,9 @@ public class MainWindowViewModel : BindableBase, INotifyPropertyChanged
     {
         if (Status != Status.Pause)
         {
-            int.TryParse(Hour, out var hour);
-            int.TryParse(Minute, out var minute);
-            int.TryParse(Second, out var secound);
+            _ = int.TryParse(Hour, out var hour);
+            _ = int.TryParse(Minute, out var minute);
+            _ = int.TryParse(Second, out var secound);
 
             DesignatedTime = new TimeSpan(hour, minute, secound);
         }
@@ -185,7 +184,7 @@ public class MainWindowViewModel : BindableBase, INotifyPropertyChanged
 
     private void PauseTimer()
     {
-        OldTimeSpan = OldTimeSpan + ElapsedTimeSpan;
+        OldTimeSpan += ElapsedTimeSpan;
         Timer?.Stop();
         Status = Status.Pause;
         IsStartEnabled = true;
@@ -206,8 +205,8 @@ public class MainWindowViewModel : BindableBase, INotifyPropertyChanged
         IsStopEnabled = false;
     }
 
-    bool first = true;
-    private void Timer_Tick(object sender, EventArgs e)
+    bool _first = true;
+    private void Timer_Tick(object? sender, EventArgs e)
     {
         switch (Status)
         {
@@ -215,17 +214,17 @@ public class MainWindowViewModel : BindableBase, INotifyPropertyChanged
                 ElapsedTimeSpan = DateTime.Now - StartTime + OldTimeSpan;
 
                 var ss = Math.Floor((DesignatedTime - ElapsedTimeSpan).TotalSeconds);
-                if (ss == 3 && first)
+                if (ss == 3 && _first)
                 {
                     Player.Play();
-                    first = false;
+                    _first = false;
                 }
 
                 if (DesignatedTime <= ElapsedTimeSpan)
                 {
                     Timer.Stop();
                     OldTimeSpan = new TimeSpan();
-                    first = true;
+                    _first = true;
 
                     CurrentPeriod++;
                     if (!IsOneTime && CurrentPeriod <= RepeatTimes)

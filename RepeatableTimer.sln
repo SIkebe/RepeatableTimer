@@ -1,9 +1,40 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32210.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepeatableTimer", "src\RepeatableTimer\RepeatableTimer.csproj", "{707A85B1-5A60-4A4E-84FE-F688DCE453C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepeatableTimer", "src\RepeatableTimer\RepeatableTimer.csproj", "{707A85B1-5A60-4A4E-84FE-F688DCE453C4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{077C4340-543C-4488-B680-60551F702DCE}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		build.cake = build.cake
+		build.ps1 = build.ps1
+		global.json = global.json
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{B7CE6679-09CA-4F71-BF71-32EAB78E2AE5}"
+	ProjectSection(SolutionItems) = preProject
+		.github\dependabot.yml = .github\dependabot.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{ACD600EA-D080-4F6E-B2A0-41A467749E27}"
+	ProjectSection(SolutionItems) = preProject
+		.config\dotnet-tools.json = .config\dotnet-tools.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{77A655FE-D084-48D9-BB39-B1D12B9FD115}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\ci.yml = .github\workflows\ci.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{AD773E63-DB8F-40B6-8F36-CF3D3FDC6EF8}"
+	ProjectSection(SolutionItems) = preProject
+		images\timer.gif = images\timer.gif
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,6 +49,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{77A655FE-D084-48D9-BB39-B1D12B9FD115} = {B7CE6679-09CA-4F71-BF71-32EAB78E2AE5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8F638FBF-4132-42CF-A6BE-7E2B4691D8CD}

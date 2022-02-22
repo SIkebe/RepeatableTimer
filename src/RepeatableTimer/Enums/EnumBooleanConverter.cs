@@ -1,4 +1,3 @@
-using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
@@ -9,7 +8,7 @@ public class EnumBooleanConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (!(parameter is string parameterString))
+        if (parameter is not string parameterString)
         {
             return DependencyProperty.UnsetValue;
         }
@@ -26,7 +25,7 @@ public class EnumBooleanConverter : IValueConverter
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (!(parameter is string parameterString))
+        if (parameter is not string parameterString)
         {
             return DependencyProperty.UnsetValue;
         }
