@@ -7,7 +7,21 @@ jobs:
     runs-on: windows-2022
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          global-json-file: global.json
+
       - name: Build
-        run: .\build.ps1 --target Build
+        run: dotnet build --configuration Release
+
       - name: Publish
-        run: .\build.ps1 --target Publish
+        run: |
+          dotnet publish `
+            --configuration Release `
+            --self-contained true `
+            --runtime win-x64 `
+            -p:PublishSingleFile=true `
+            -p:IncludeNativeLibrariesForSelfExtract=true `
+            -p:EnableCompressionInSingleFile=true
