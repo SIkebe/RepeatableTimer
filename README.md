@@ -5,8 +5,8 @@ A timer which can repeat any number of times implemented by WPF.
 ```cmd
 git clone https://github.com/SIkebe/RepeatableTimer.git
 cd RepeatableTimer
-.\build.ps1 -target ILMerge
-.\artifact\RepeatableTimer.exe
+.\build.ps1 --target Publish
+.\executable\RepeatableTimer.exe
 ```
 
-![mainwindow](./images/mainwindow.png)
+![mainwindow](./images/timer.gif)

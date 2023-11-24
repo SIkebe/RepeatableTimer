@@ -1,9 +1,8 @@
-﻿namespace RepeatableTimer.Enums
+namespace RepeatableTimer.Enums;
+
+public enum Status
 {
-    public enum Status
-    {
-        Run = 0,
-        Pause,
-        Stop
-    }
+    Run = 0,
+    Pause,
+    Stop
 }
